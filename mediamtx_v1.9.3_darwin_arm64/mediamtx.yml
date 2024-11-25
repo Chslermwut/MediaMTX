@@ -276,64 +276,18 @@ rtmpServerKey: server.key
 # Path to the server certificate. This is needed only when encryption is "strict" or "optional".
 rtmpServerCert: server.crt
 
-###############################################
 # Global settings -> HLS server
-
-# Enable reading streams with the HLS protocol.
-hls: yes
-# Address of the HLS listener.
-hlsAddress: :8888
-# Enable TLS/HTTPS on the HLS server.
-# This is required for Low-Latency HLS.
-hlsEncryption: no
-# Path to the server key. This is needed only when encryption is yes.
-# This can be generated with:
-# openssl genrsa -out server.key 2048
-# openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
-hlsServerKey: server.key
-# Path to the server certificate.
-hlsServerCert: server.crt
-# Value of the Access-Control-Allow-Origin header provided in every HTTP response.
-# This allows to play the HLS stream from an external website.
-hlsAllowOrigin: '*'
-# List of IPs or CIDRs of proxies placed before the HLS server.
-# If the server receives a request from one of these entries, IP in logs
-# will be taken from the X-Forwarded-For header.
-hlsTrustedProxies: []
-# By default, HLS is generated only when requested by a user.
-# This option allows to generate it always, avoiding the delay between request and generation.
-hlsAlwaysRemux: no
-# Variant of the HLS protocol to use. Available options are:
-# * mpegts - uses MPEG-TS segments, for maximum compatibility.
-# * fmp4 - uses fragmented MP4 segments, more efficient.
-# * lowLatency - uses Low-Latency HLS.
-hlsVariant: lowLatency
-# Number of HLS segments to keep on the server.
-# Segments allow to seek through the stream.
-# Their number doesn't influence latency.
-hlsSegmentCount: 7
-# Minimum duration of each segment.
-# A player usually puts 3 segments in a buffer before reproducing the stream.
-# The final segment duration is also influenced by the interval between IDR frames,
-# since the server changes the duration in order to include at least one IDR frame
-# in each segment.
-hlsSegmentDuration: 1s
-# Minimum duration of each part.
-# A player usually puts 3 parts in a buffer before reproducing the stream.
-# Parts are used in Low-Latency HLS in place of segments.
-# Part duration is influenced by the distance between video/audio samples
-# and is adjusted in order to produce segments with a similar duration.
-hlsPartDuration: 200ms
-# Maximum size of each segment.
-# This prevents RAM exhaustion.
-hlsSegmentMaxSize: 50M
-# Directory in which to save segments, instead of keeping them in the RAM.
-# This decreases performance, since reading from disk is less performant than
-# reading from RAM, but allows to save RAM.
-hlsDirectory: ''
-# The muxer will be closed when there are no
-# reader requests and this amount of time has passed.
-hlsMuxerCloseAfter: 60s
+hls: yes                # Enable HLS support
+hlsAddress: :8888       # Address and port for HLS streaming
+hlsEncryption: no       # Disable encryption for the HLS server (set to 'yes' if using encryption)
+hlsAllowOrigin: '*'     # Allow cross-origin requests from all origins
+hlsAlwaysRemux: no      # Generate HLS only when requested
+hlsVariant: lowLatency  # Low latency HLS
+hlsSegmentCount: 7      # Number of segments to keep on the server
+hlsSegmentDuration: 2s  # Duration of each segment
+hlsPartDuration: 2s     # Duration of each part in low-latency HLS
+hlsSegmentMaxSize: 50M  # Maximum size of each segment
+hlsMuxerCloseAfter: 60s # Close muxer after no request for 60 seconds
 
 ###############################################
 # Global settings -> WebRTC server
@@ -696,18 +650,14 @@ pathDefaults:
 # for example "~^(test1|test2)$" will match both "test1" and "test2",
 # for example "~^prefix" will match all paths that start with "prefix".
 paths:
-  # example:
-  # my_camera:
-  #   source: rtsp://my_camera
   camera1:
     source: rtsp://10.50.3.135/live.sdp
   camera2:
     source: rtsp://10.50.3.136/live.sdp
-  camera3:
-    source: rtsp://10.50.3.137/live.sdp
-  # camera4:
+  camera4:
+    source: rtsp://admin:Iomc@2024@192.168.100.68/LiveMedia/ch1/Media1/trackID=1
+  # camera5:
   #   source: rtsp://admin:iomc2024@192.168.100.63/LiveMedia/ch1/Media1/trackID=1
-
   # Settings under path "all_others" are applied to all paths that
   # do not match another entry.
   all_others:

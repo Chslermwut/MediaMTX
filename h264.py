@@ -1,7 +1,7 @@
 import subprocess
 
 # Your RTSP input and RTMP output URLs
-rtsp_url = 'rtsp://admin:iomc2024@192.168.100.63/LiveMedia/ch1/Media1/trackID=1'
+rtsp_url = 'rtsp://admin:Iomc@2024@192.168.100.68/LiveMedia/ch1/Media1/trackID=1'
 rtmp_url = 'rtmp://localhost:1935/camera4'
 
 # FFmpeg command to transcode H265 to H264, disable B-frames, and stream to RTMP
