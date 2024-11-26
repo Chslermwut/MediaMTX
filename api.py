@@ -11,7 +11,7 @@ app.config['DEBUG'] = True
 def index():
     try:
         # Serve the static HTML file
-        return send_from_directory('static', 'webrtc.html')
+        return send_from_directory('website', 'web.html')
     except Exception as e:
         print(f"Error loading file: {e}")
         return "An error occurred while loading the page", 500

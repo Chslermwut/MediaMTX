@@ -128,7 +128,7 @@ authJWTClaimKey: mediamtx_permissions
 # Global settings -> Control API
 
 # Enable controlling the server through the Control API.
-api: no
+api: yes
 # Address of the Control API listener.
 apiAddress: :9997
 # Enable TLS/HTTPS on the Control API server.
@@ -650,12 +650,12 @@ pathDefaults:
 # for example "~^(test1|test2)$" will match both "test1" and "test2",
 # for example "~^prefix" will match all paths that start with "prefix".
 paths:
-  camera1:
-    source: rtsp://10.50.3.135/live.sdp
-  camera2:
-    source: rtsp://10.50.3.136/live.sdp
-  camera4:
-    source: rtsp://admin:Iomc@2024@192.168.100.68/LiveMedia/ch1/Media1/trackID=1
+  # camera1:
+  #   source: rtsp://10.50.3.135/live.sdp
+  # camera2:
+  #   source: rtsp://10.50.3.136/live.sdp
+  # camera4:
+  #   source: rtsp://admin:Iomc@2024@192.168.100.68/LiveMedia/ch1/Media1/trackID=1
   # camera5:
   #   source: rtsp://admin:iomc2024@192.168.100.63/LiveMedia/ch1/Media1/trackID=1
   # Settings under path "all_others" are applied to all paths that

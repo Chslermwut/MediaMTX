@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Stream</title>
+  <link rel="icon" href="data:,"> 
+</head>
+<body>
+  <h1>Enter Name for API</h1>
+  <form id="name-form">
+    <label for="name-input">Name:</label>
+    <input type="text" id="name-input" required />
+    <button type="submit">Submit</button>
+  </form>
+  <div id="api-data"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('name-form');
+      const apiDataDiv = document.getElementById('api-data');
+
+      // Handle form submission
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent default form submission
+
+        const nameInput = document.getElementById('name-input').value.trim(); // Get the user input
+        if (!nameInput) {
+          apiDataDiv.innerHTML = '<p>Please enter a name!</p>';
+          return;
+        }
+
+        // Construct the API URL with the name parameter
+        const apiUrl = `http://localhost:9997/v3/config/paths/get/${encodeURIComponent(nameInput)}`;
+
+        try {
+          // Fetch data from the API
+          const response = await fetch(apiUrl);
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          // Display the data
+          apiDataDiv.innerHTML = `
+            <h2>API Data:</h2>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+          `;
+        } catch (error) {
+          console.error('Error fetching API:', error);
+          apiDataDiv.innerHTML = '<p>Error fetching API data. Please try again later.</p>';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
